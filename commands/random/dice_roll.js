@@ -1,10 +1,6 @@
 class DiceRollCommand {
 	constructor(client) {
-		arr = {
-			name : 'roll',
-			memberName : 'roll',
-			description : 'roll a die'
-		};
+		this.name = "roll";
 	}
 	
 	run(msg, args) {

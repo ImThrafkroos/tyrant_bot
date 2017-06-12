@@ -11,7 +11,7 @@ class CommandModule {
 		console.log("Module created properly, data:", [this.prefix, this.name, this.folderPath], '\n');
 
 		this.loadCommands();
-		
+
 	}
 
 	loadCommands() {
@@ -32,7 +32,18 @@ class CommandModule {
 
 	run(msg) {
 		this.commands.forEach((cmd) => {
+			var text = msg.content.slice(this.prefix.length);
+			var check = false;
 
+			cmd.triggers.forEach((t) => {
+				if (text.startsWith(t)) {
+					check = true;
+				}
+			});
+
+			if (check) {
+				cmd.run(msg, text.split(" ").slice(1));
+			}
 		});
 	}
 

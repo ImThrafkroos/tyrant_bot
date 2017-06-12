@@ -1,6 +1,6 @@
 const Command = require("../../command.js");
 
-class PruneCommand extends Command {
+class KickCommand extends Command {
 
 	constructor() {
 		
@@ -8,8 +8,9 @@ class PruneCommand extends Command {
 			name : "",
 			triggers : []
 		});
+
 	}
 
 }
 
-module.exports = PruneCommand;
+module.exports = KickCommand;

@@ -3,6 +3,7 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const commandSystem = new (require('./command_system.js'))({
+
 	// giving optional settings to the command system
 
 	prefix : '> '
@@ -28,6 +29,7 @@ client.on('disconnect', () => {
 console.log("\nStarting tests:\n");
 
 commandSystem.createModule('administration');
+commandSystem.createModule('random');
 commandSystem.run(client);
 
 console.log("Tests completed, starting client connection\n");
