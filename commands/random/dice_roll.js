@@ -1,12 +1,18 @@
-class DiceRollCommand {
-	constructor(client) {
-		this.name = "roll";
-	}
-	
-	run(msg, args) {
-		var num = Math.floor(Math.random() * 6) + 1;
-		msg.reply("you rolled a " + num);
-	}
-}
 
-module.exports = DiceRollCommand;
+module.exports = {
+
+	name : "dice roll",
+	triggers : ["roll"],
+	description : "rolls a die",
+
+	arguments : [
+		{ name : "number", required : true }
+	],
+
+	code : function(data, args) {
+
+		data.msg.channel.send(Math.random() * 6 + 1);
+
+	}
+
+};

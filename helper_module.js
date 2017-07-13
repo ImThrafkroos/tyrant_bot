@@ -9,6 +9,24 @@ class HelperModule {
 			return t;
 		}
 	}
+
+	static parseMentions(mentions) {
+
+		var object = { members : [], channels : [], roles : [] };
+		
+		mentions.forEach((mention) => {
+
+			var match;
+
+			if ((match = /<@(\d+)>/.exec(mention))) object.members.push(match[1]);
+			if ((match = /<#(\d+)>/.exec(mention))) object.channels.push(match[1]);
+			if ((match = /<@&(\d+)>/.exec(mention))) object.roles.push(match[1]);
+
+		});
+
+		return object;
+		
+	}
 	
 }
 

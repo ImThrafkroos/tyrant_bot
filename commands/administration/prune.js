@@ -1,15 +1,18 @@
-const Command = require("../../command.js");
 
-class PruneCommand extends Command {
+module.exports = {
 
-	constructor() {
-		
-		super({
-			name : "",
-			triggers : []
-		});
+	name : "purge",
+	triggers : ["purge", "prune"],
+	description : "deletes messages in bulk",
+
+	arguments : [
+		{ name : "number", required : true }
+	],
+
+	code : function(data, args) {
+
+		data.msg.channel.send("purging " + args[0] + " messages...");
+
 	}
 
-}
-
-module.exports = PruneCommand;
+};

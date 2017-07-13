@@ -1,5 +1,7 @@
 {
 	"token" : "MzIxNzE5ODk1NzM1OTI2Nzk3.DBiImg.J7lejYaRAPN92rvVwUQtYCyYp5M",
 	"owner_id" : "216871695359672320",
-	"bot_id" : "321719895735926797"
+	"bot_id" : "321719895735926797",
+	"coding_club_id" : "269278777089982475",
+	"defaultPrefix" : "> "
 }
