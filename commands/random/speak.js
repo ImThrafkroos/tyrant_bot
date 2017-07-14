@@ -6,7 +6,7 @@ module.exports = {
 	description : "echoes a message",
 
 	arguments : [
-		{ name : "number", required : true }
+		{ name : "message" }
 	],
 
 	code : function(data, args) {

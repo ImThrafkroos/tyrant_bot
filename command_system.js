@@ -9,10 +9,11 @@ const Helper = require('./helper_module.js');
 
 class CommandSystem {
 
-	constructor(opt) {
+	constructor(client, opt) {
 
 		this.setOptions(opt);
 		this.commandModules = [];
+		this.client = client;
 		
 	}
 
@@ -32,84 +33,47 @@ class CommandSystem {
 
 	}
 
-	run(client) {
+	start() {
 
 		//console.log(this);
 
-		client.on('message', (msg) => {
+		this.client.on('message', (msg) => {
 
-			if (msg.author.id !== client.user.id) {
+			if (msg.author.id !== this.client.user.id) {
 
 				var obj = {
 
-					client : client,
+					client : this.client,
 					msg : msg,
 					dbManager : this.options.dbManager,
 					Helper : Helper
 
 				};
 
-				// onMessageDebugging(client, msg);
-
-				this.interServerCommunication(client, msg);
+				// this.onMessageDebugging(msg);
+				this.interServerCommunication(msg);
 				this.stdCommands(obj);
-				this.evalCommand(client, obj);
-				this.helpCommand(client, msg);
-				// this.subscribeAll(client);
-
+				this.evalCommand(obj);
+				this.helpCommand(msg);
+				
 			}
 		});
 	}
 
-	// #todo: add guild-wide role checking to see if anyone is missing the member role
-	// more comments just to make me notice this later
-	// more commenting again
-	// still more commenting
-
-	/*
-	subscribeAll(client) {
-
-		this.subscribeToOnGuildMemberAdd(client)
-		
-	}
-
-	subscribeToOnGuildMemberAdd(client) {
-
-		client.on('guildMemberAdd', (member) => {
-
-			dbManager.open((data) => {
-
-				if (!data.servers[member.guild.id]) ;
-				
-				if (data.servers[member.guild.id].memberRole) {
-
-					member.addRole(member.guild.getRole({ id : data.servers[member.guild.id].memberRole }));
-
-				} else {
-
-					member.guild.defaultChannel.send("No default role is set for new members");
-					
-				}
-			});
-		});
-
-	}
-	*/
-
-	onMessageDebugging(client, msg) {
+	onMessageDebugging(msg) {
 
 		// Echoing
 		msg.reply(msg.content);
 
 	}
 
-	interServerCommunication(client, msg) {
+	interServerCommunication(msg) {
 
-		const SHName = "server_hub";
+		const SHName = "s3rverhub";
 
 		if (msg.channel.name === SHName) {
 
-			client.channels.forEach((ch) => {
+			this.client.channels.forEach((ch) => {
 
 				if (ch.name === SHName && ch != msg.channel) {
 
@@ -137,7 +101,9 @@ class CommandSystem {
 
 	}
 
-	evalCommand(client, data) {
+	evalCommand(data) {
+		
+		var client = this.client;
 
 		if (data.msg.content.startsWith('eval ')) {
 
@@ -162,9 +128,9 @@ class CommandSystem {
 
 	}
 
-	helpCommand(client, msg) {
+	helpCommand(msg) {
 
-		if (msg.cleanContent === `@${client.user.username} help`) {
+		if (msg.cleanContent === `@${this.client.user.username} help`) {
 
 			this.sendHelp(msg.author);
 

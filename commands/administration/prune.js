@@ -2,8 +2,9 @@
 module.exports = {
 
 	name : "purge",
-	triggers : ["purge", "prune"],
+	triggers : ["purge", "prune", "delete"],
 	description : "deletes messages in bulk",
+  parseArgs : true,
 
 	arguments : [
 		{ name : "number", required : true }
@@ -11,7 +12,7 @@ module.exports = {
 
 	code : function(data, args) {
 
-		data.msg.channel.send("purging " + args[0] + " messages...");
+		data.msg.channel.send("deleting " + args.number + " messages...");
 
 	}
 

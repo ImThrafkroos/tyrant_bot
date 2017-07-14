@@ -6,12 +6,12 @@ module.exports = {
 	description : "rolls a die",
 
 	arguments : [
-		{ name : "number", required : true }
+		{ name : "sides", required : false }
 	],
 
 	code : function(data, args) {
 
-		data.msg.channel.send(Math.random() * 6 + 1);
+		data.msg.channel.send(Math.random() * (args.sides || 6) + 1);
 
 	}
 

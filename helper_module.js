@@ -11,6 +11,8 @@ class HelperModule {
 	}
 
 	static parseMentions(mentions) {
+		
+		if (!mentions) return console.log("GIVE ME ACTUAL FUCKING MENTIONS! Dearly, from: parseMentions helper method");
 
 		var object = { members : [], channels : [], roles : [] };
 		

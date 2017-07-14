@@ -6,7 +6,7 @@ module.exports = {
 	description : "checks whether the server is included in the database",
 
 	code : (data, args) => {
-		data.msg.reply(data.dbManager.checkForId({ in : 'servers', id : data.msg.guild.id }).toString());
+		data.msg.reply(data.dbManager.open((db) => { return !!db.servers[data.msg.guild.id] }).toString());
 	}
 
 };

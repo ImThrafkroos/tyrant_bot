@@ -5,7 +5,6 @@ module.exports = {
 	triggers : [""],
 	description : "",
 	parseArgs : false,
-	argCheck : false,
 
 	arguments : [
 		{ name : "", required : false, multiple : false }

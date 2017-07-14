@@ -83,7 +83,7 @@ class CommandModule {
 
 		this.commands.forEach((cmd) => {
 
-			var text = data.msg.content.slice(this.prefix.length);
+			var text = data.msg.content.slice(this.prefix.length).trim();
 			var check = false;
 			var help = false;
 
@@ -116,7 +116,8 @@ class CommandModule {
 
 					console.log('the command module tried running the "' + cmd.name + '" command');
 
-					switch (cmd.exec(data, this.parseArgs(cmd, text.split(" ").slice(1)))) {
+					// Running the command while using the return value in a switch statement
+					switch (cmd.exec(data, this.parseArgs(cmd, text))) {
 						case 0:
 							console.log("command execution failed");
 							break;
@@ -138,24 +139,30 @@ class CommandModule {
 		});
 	}
 
-	parseArgs(cmd, args) {
+	parseArgs(cmd, text) {
 
-		if (!cmd.parseArgs) return args.join(" ") // set the returned value if not to be parsed.
-
-		var output = {};
+		if (!cmd.parseArgs) return text = text.split(' ').slice(1).join(' '); // set the returned value if not to be parsed.
+		
+		var match, myRegex = /\w+:(\[?.+\]?|\S+)/g, args = [], output = {};
+		
+		while (match = myRegex.exec(text)) {
+			args.push(match[0]);
+		}
 
 		cmd.arguments.forEach((cmdArg) => {
 
 			var value;
 
 			args.forEach((arg) => {
+				
+				var n = 1;
 
-				if (!arg.startswith(cmdArg.name + ':')) return; // stop the execution if not the right argument
+				if (!arg.startsWith(cmdArg.name + ':')) return; // stop the execution if not the right argument
 
 				value = arg.split(':')[1] // extract the part after the colon and assign it to 'value'
 
-				if (cmdArg.multiple) value = value.slice(1, -1).split(' '); // if multiple, remove the '[]'.
-
+				if (cmdArg.multiple) value = /\[(.+)\]/.exec(value)[1].trim().split(' '); // if multiple, remove the '[]'
+				
 			});
 
 			output[cmdArg.name] = value; // assign to this the refined value.

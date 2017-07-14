@@ -1,6 +1,5 @@
 # ignore private json files
 config.json
-database.json
 
 # ignore all files inside node_modules
 /node_modules

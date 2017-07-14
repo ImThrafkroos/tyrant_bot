@@ -30,17 +30,18 @@ class Command {
 
 		this.beforeAction = cmdObj.beforeAction; // always guaranteed to have a value
 
-		this.buildFormat();
+		this.buildFormat(cmdObj);
 
 	}
 
-	buildFormat() {
+	buildFormat(cmd) {
+		
+		if (cmd.format) return this.format = this.prefix + cmd.format;
 
 		this.format = `${this.prefix}${this.triggers[0]}`;
 		
 		this.arguments.forEach((arg) => {
 
-			var count = 1;
 			var ob = '[';
 			var cb = ']';
 
@@ -51,20 +52,15 @@ class Command {
 				
 			}
 			
+			this.format += ` ${ob}"${arg.name}"`;
 			
-
 			if (this.parseArgs) {
-
-				this.format += ` ${ob}${arg.name}`;
+				
 				this.format += ':';
 				this.format += arg.multiple ? '(' : '';
 				this.format += `${ob}**value`;
 				this.format += arg.multiple ? `1**${cb} **...**)` : `**${cb}`;
 				
-			} else {
-
-				this.format += count > 1 ? ` | ${arg.name}` : `${ob}${arg.name}`
-
 			}
 			
 			this.format += cb;
@@ -77,10 +73,7 @@ class Command {
 		
 		if (this.authCheck(data)) {
 
-			// #todo: create a method for adding prior argument-checking (optional, through a boolean)
-			// consider after action as well
-
-			if (this.argCheck) if (!this.checkArgs(this.arguments, args)) return 3;
+			if (!this.checkArgs(this.arguments, args)) return 3;
 
 			this.beforeAction.run(data);
 			this.code(data, args);
@@ -99,12 +92,7 @@ class Command {
 
 	checkArgs(cmdArgs, args) {
 
-		if (this.parseArgs) {
-
-			if (!args) return false;
-			else return true;
-
-		}
+		if (!this.parseArgs) return true;
 
 		if (!args) return false;
 
