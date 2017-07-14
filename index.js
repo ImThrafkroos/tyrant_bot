@@ -1,13 +1,12 @@
 
-// importing required modules and files
+// Importing required modules and files
 
-const Discord = require('discord.js');
-const config = require('./config.json');
 const lib = require('./tyrant_library.js');
+const config = require('./config.json');
 
-// Instantiating classes
+// Assigning constants
 
-const client = new Discord.Client();
+const client = new lib.Discord.Client();
 const dbManager = new lib.DBManager('./database.json');
 const commandSystem = new lib.CommandSystem(client, {
 	
@@ -20,7 +19,7 @@ const commandSystem = new lib.CommandSystem(client, {
 
 // Adding getRole method to the guild class
 
-Discord.Guild.prototype.getRole = function(opt) {
+lib.Discord.Guild.prototype.getRole = function(opt) {
 	
 	var match;
 
