@@ -33,6 +33,12 @@ module.exports = function(client, commandSystem, config) {
       } 
     }
   });
+  
+  commandSystem.createModule('automatic', {
+    
+    prefix : ''
+    
+  });
 
   commandSystem.createModule('random');
 

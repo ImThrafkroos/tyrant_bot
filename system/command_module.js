@@ -8,15 +8,16 @@ const Helper = require('./helper_module.js');
 
 class CommandModule {
 
-	constructor(pf, nm, moduleAuthChecker, moduleBeforeAction) {
+	constructor(pf, nm, log, moduleAuthChecker, moduleBeforeAction) {
 
 		this.prefix = pf;
 		this.name = nm;
+		this.log = log;
 		this.folderPath = './commands/' + this.name + '/';
 		this.moduleAuthChecker = moduleAuthChecker;
 		this.moduleBeforeAction = moduleBeforeAction;
 
-		console.log("Module created, data:", [this.prefix, this.name, this.folderPath], '\n');
+		if (this.log) console.log("Module created, data:", [this.prefix, this.name, this.folderPath], '\n');
 
 		this.loadCommands();
 
@@ -39,6 +40,8 @@ class CommandModule {
 			// editing the cmdObj object
 			
 			var cmdObj = require(loc);
+			
+			cmdObj.log = this.log;
 
 			var actions = [];
 
@@ -73,12 +76,15 @@ class CommandModule {
 
 		});
 
-		this.commands.forEach((cmd) => {
-			console.log('"' + cmd.name + '" command has been loaded');
-		});
-
-		console.log();
-
+		if (this.log){
+			
+			this.commands.forEach((cmd) => {
+				console.log('"' + cmd.name + '" command has been loaded');
+			});
+	
+			console.log();
+			
+		}
 	}
 
 	run(data) {
@@ -116,10 +122,12 @@ class CommandModule {
 
 				} else {
 
-					console.log('the command module tried running the "' + cmd.name + '" command');
+					if (this.log) console.log('the command module tried running the "' + cmd.name + '" command');
 
 					// Running the command while using the return value in a switch statement
-					switch (cmd.exec(data, this.parseArgs(cmd, text))) {
+					var returnValue = cmd.exec(data, this.parseArgs(cmd, text));
+					
+					if (data.log) switch (returnValue) {
 						case 0:
 							console.log("command execution failed");
 							break;
@@ -130,7 +138,7 @@ class CommandModule {
 							console.log("command access denied");
 							break;
 						case 3:
-							data.msg.reply("error during argument checking.\nformat:", cmd.format)
+							console.log("error during argument checking.\nformat:", cmd.format)
 							break;
 						default:
 							console.log("an unexpected error occurred, check the run() method in command_module");

@@ -1,1 +1,7 @@
-# This is the README file for the tyrant lib (or whatever you wanna call it)
+# Tyrant Library
+
+A simple command library for discord.js
+
+### Usage:
+
+**Too tired, I'll do it later :>**

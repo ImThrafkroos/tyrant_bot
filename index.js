@@ -1,19 +1,21 @@
 
 // Importing required modules and files
 
+const path = require('path');
 const lib = require('./system/tyrant_library.js');
 const config = require('./data/config.json');
 
 // Assigning constants
 
 const client = new lib.Discord.Client();
-const dbManager = new lib.DBManager('./data/database.json');
+const dbManager = new lib.DBManager(path._makeLong('./data/database.json'));
 const commandSystem = new lib.CommandSystem(client, {
 	
 	prefix : '> ',
 	config : config,
 	dbManager : dbManager,
-	token : config.token
+	token : config.token,
+	log : true
 	
 });
 

@@ -5,7 +5,7 @@ class DBManager {
 
 	constructor(location) {
 		
-		this.location = '.' + location;
+		this.location = location;
 		
 	}
 

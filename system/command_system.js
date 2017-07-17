@@ -27,15 +27,13 @@ class CommandSystem {
 
 		var prefix = (options.prefix !== undefined) ? options.prefix : this.options.config.defaultPrefix;
 		var moduleAuthChecker = options.requirements || function(data) { return true; };
-		var beforeAction = options.beforeAction;// || function(data) {}; // unnecessary after changes in code
+		var beforeAction = options.beforeAction;
 		
-		this.commandModules.push(new CommandModule(prefix, name, moduleAuthChecker, beforeAction));
+		this.commandModules.push(new CommandModule(prefix, name, !!this.options.log, moduleAuthChecker, beforeAction));
 
 	}
 
 	start() {
-
-		//console.log(this);
 
 		this.client.on('message', (msg) => {
 
@@ -49,8 +47,7 @@ class CommandSystem {
 					Helper : Helper
 
 				};
-
-				// this.onMessageDebugging(msg);
+				
 				this.interServerCommunication(msg);
 				this.stdCommands(obj);
 				this.evalCommand(obj);
@@ -58,13 +55,6 @@ class CommandSystem {
 				
 			}
 		});
-	}
-
-	onMessageDebugging(msg) {
-
-		// Echoing
-		msg.reply(msg.content);
-
 	}
 
 	interServerCommunication(msg) {
@@ -90,8 +80,6 @@ class CommandSystem {
 		this.commandModules.forEach((module) => {
 
 			if (data.msg.content.startsWith(module.prefix)) {
-						
-				console.log("the command system gave control to the " + module.name + " module");
 
 				module.run(data);
 						

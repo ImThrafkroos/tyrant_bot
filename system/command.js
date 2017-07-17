@@ -19,16 +19,15 @@ class Command {
 		this.arguments = cmdObj.arguments || [];
 		this.argCheck = !!cmdObj.argCheck;
 		this.parseArgs = !!cmdObj.parseArgs;
+		this.log = cmdObj.log;
+		this.authCheck = cmdObj.authCheck || modAuthChecker;
+		this.beforeAction = cmdObj.beforeAction; // always guaranteed to have a value
 
 		this.code = cmdObj.code || function(d, a) {
 			
 			console.log("empty command run, location: " + this.location)
 
 		};
-
-		this.authCheck = cmdObj.authCheck || modAuthChecker;
-
-		this.beforeAction = cmdObj.beforeAction; // always guaranteed to have a value
 
 		this.buildFormat(cmdObj);
 
@@ -77,13 +76,13 @@ class Command {
 
 			this.beforeAction.run(data);
 			this.code(data, args);
-			this.cLog();
+			if (this.log) this.cLog();
 			
 			return 1;
 
 		} else {
 
-			msg.channel.send("no");
+			msg.channel.send("Not authorized");
 			return 2;
 
 		}
