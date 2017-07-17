@@ -4,6 +4,7 @@ module.exports = {
 	name : "dice roll",
 	triggers : ["roll"],
 	description : "rolls a die",
+  parseArgs : true,
 
 	arguments : [
 		{ name : "sides", required : false }

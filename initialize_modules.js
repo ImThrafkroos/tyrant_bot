@@ -1,5 +1,5 @@
 
-var init = function(client, commandSystem, config) {
+module.exports = function(client, commandSystem, config) {
   
   commandSystem.createModule('administration', {
 
@@ -49,5 +49,3 @@ var init = function(client, commandSystem, config) {
   });
   
 }
-
-module.exports = init;

@@ -1,13 +1,13 @@
 
 // Importing required modules and files
 
-const lib = require('./tyrant_library.js');
-const config = require('./config.json');
+const lib = require('./system/tyrant_library.js');
+const config = require('./data/config.json');
 
 // Assigning constants
 
 const client = new lib.Discord.Client();
-const dbManager = new lib.DBManager('./database.json');
+const dbManager = new lib.DBManager('./data/database.json');
 const commandSystem = new lib.CommandSystem(client, {
 	
 	prefix : '> ',
@@ -33,14 +33,9 @@ lib.Discord.Guild.prototype.getRole = function(opt) {
 	
 };
 
-
 // setting up client events and command modules
 
 require('./on_events.js')(client, dbManager);
 require('./initialize_modules.js')(client, commandSystem, config);
 
-commandSystem.start();
-
-client.login(config.token).catch((err) => {
-	console.log("An error has occurred during login...");
-});
+lib.start(commandSystem, client, config.token);

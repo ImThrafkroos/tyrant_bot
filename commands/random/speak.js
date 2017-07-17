@@ -11,7 +11,7 @@ module.exports = {
 
 	code : function(data, args) {
 		
-		data.msg.channel.send(args);
+		data.msg.channel.send(args.split(' ').slice(1).join(' '));
 		data.msg.delete();
 		
 	}
